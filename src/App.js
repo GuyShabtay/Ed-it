@@ -5,8 +5,10 @@ import { useDropzone } from 'react-dropzone';
 const App = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [resultImage, setResultImage] = useState(null);
-  const [brightness, setBrightness] = useState(100); // Default: 100 (no change)
-  const [contrast, setContrast] = useState(100); // Default: 100 (no change)
+  const [brightness, setBrightness] = useState(100);
+  const [contrast, setContrast] = useState(100);
+  const [removeBackgroundPressed, setRemoveBackgroundPressed] = useState(false);
+  const [downloadPressed, setDownloadPressed] = useState(false);
   const apiKey = process.env.API_KEY;
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -15,29 +17,32 @@ const App = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const applyImageEffects = () => {
-    if (!selectedImage) return;
+  const applyImageEffects = async () => {
+    return new Promise((resolve) => {
+      if (!selectedImage) return resolve();
 
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const img = new Image();
-    img.src = URL.createObjectURL(selectedImage);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.src = URL.createObjectURL(selectedImage);
 
-    img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
 
-      // Apply brightness and contrast
-      ctx.filter = `brightness(${brightness}%) contrast(${contrast}%)`;
+        // Apply brightness and contrast
+        ctx.filter = `brightness(${brightness}%) contrast(${contrast}%)`;
 
-      // Draw the image on the canvas
-      ctx.drawImage(img, 0, 0);
+        // Draw the image on the canvas
+        ctx.drawImage(img, 0, 0);
 
-      // Convert canvas to data URL
-      const dataUrl = canvas.toDataURL('image/jpeg');
+        // Convert canvas to data URL
+        const dataUrl = canvas.toDataURL('image/jpeg');
 
-      setResultImage(dataUrl);
-    };
+        setResultImage(dataUrl);
+        resolve();
+      };
+    });
   };
 
   const removeBackground = async () => {
@@ -60,11 +65,27 @@ const App = () => {
         const blob = new Blob([response.data], { type: 'image/png' });
         const url = URL.createObjectURL(blob);
         setResultImage(url);
+        setRemoveBackgroundPressed(true);
       } else {
         console.error('Error:', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Request failed:', error);
+    }
+  };
+
+  const downloadImage = async () => {
+    await applyImageEffects(); // Apply effects before downloading
+    setDownloadPressed(true);
+  };
+
+  const handleImageLoad = () => {
+    if (downloadPressed) {
+      const link = document.createElement('a');
+      link.href = resultImage;
+      link.download = 'modified_image.png';
+      link.click();
+      setDownloadPressed(false);
     }
   };
 
@@ -93,6 +114,7 @@ const App = () => {
             src={URL.createObjectURL(selectedImage)}
             alt="Selected Image"
             style={{ width: '700px', height: '700px', margin: 'auto', marginBottom: '20px', filter: `brightness(${brightness}%) contrast(${contrast}%)` }}
+            onLoad={handleImageLoad}
           />
           <div>
             <label htmlFor="brightness">Brightness:</label>
@@ -118,8 +140,8 @@ const App = () => {
               onChange={(e) => setContrast(e.target.value)}
             />
           </div>
-          <button onClick={applyImageEffects}>Apply Effects</button>
-          <button onClick={removeBackground}>Remove Background</button>
+          {!removeBackgroundPressed && <button onClick={removeBackground}>Remove Background</button>}
+          <button onClick={downloadImage}>Download Image</button>
           {resultImage && <img src={resultImage} alt="Result" />}
         </div>
       )}
