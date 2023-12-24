@@ -11,8 +11,7 @@ const App = () => {
     setSelectedImage(acceptedFiles[0]);
   }, []);
 
-  
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const removeBackground = async () => {
     if (!selectedImage) return;
@@ -44,24 +43,34 @@ const App = () => {
 
   return (
     <div>
-      <div
-        {...getRootProps()}
-        style={{
-          width: '700px',
-          height: '700px',
-          border: '2px solid purple',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          margin: 'auto',
-          marginBottom: '20px',
-        }}
-      >
-        <input {...getInputProps()} />
-        Drag and drop image here or click to select
-      </div>
-      <button onClick={removeBackground}>Remove Background</button>
-      {resultImage && <img src={resultImage} alt="Result" />}
+      {!selectedImage ? (
+        <div
+          {...getRootProps()}
+          style={{
+            width: '700px',
+            height: '700px',
+            border: `2px solid ${isDragActive ? 'yellow' : 'purple'}`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: 'auto',
+            marginBottom: '20px',
+          }}
+        >
+          <input {...getInputProps()} />
+          {isDragActive ? 'Drop the image here' : 'Drag and drop image here or click to select'}
+        </div>
+      ) : (
+        <div>
+          <img
+            src={URL.createObjectURL(selectedImage)}
+            alt="Selected Image"
+            style={{ width: '700px', height: '700px', margin: 'auto', marginBottom: '20px' }}
+          />
+          <button onClick={removeBackground}>Remove Background</button>
+          {resultImage && <img src={resultImage} alt="Result" />}
+        </div>
+      )}
     </div>
   );
 };
