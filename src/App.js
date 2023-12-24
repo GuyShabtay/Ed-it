@@ -5,6 +5,8 @@ import { useDropzone } from 'react-dropzone';
 const App = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [resultImage, setResultImage] = useState(null);
+  const [brightness, setBrightness] = useState(100); // Default: 100 (no change)
+  const [contrast, setContrast] = useState(100); // Default: 100 (no change)
   const apiKey = process.env.API_KEY;
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -12,6 +14,31 @@ const App = () => {
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+  const applyImageEffects = () => {
+    if (!selectedImage) return;
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    img.src = URL.createObjectURL(selectedImage);
+
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      // Apply brightness and contrast
+      ctx.filter = `brightness(${brightness}%) contrast(${contrast}%)`;
+
+      // Draw the image on the canvas
+      ctx.drawImage(img, 0, 0);
+
+      // Convert canvas to data URL
+      const dataUrl = canvas.toDataURL('image/jpeg');
+
+      setResultImage(dataUrl);
+    };
+  };
 
   const removeBackground = async () => {
     if (!selectedImage) return;
@@ -65,8 +92,33 @@ const App = () => {
           <img
             src={URL.createObjectURL(selectedImage)}
             alt="Selected Image"
-            style={{ width: '700px', height: '700px', margin: 'auto', marginBottom: '20px' }}
+            style={{ width: '700px', height: '700px', margin: 'auto', marginBottom: '20px', filter: `brightness(${brightness}%) contrast(${contrast}%)` }}
           />
+          <div>
+            <label htmlFor="brightness">Brightness:</label>
+            <input
+              type="range"
+              id="brightness"
+              name="brightness"
+              min="0"
+              max="200"
+              value={brightness}
+              onChange={(e) => setBrightness(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="contrast">Contrast:</label>
+            <input
+              type="range"
+              id="contrast"
+              name="contrast"
+              min="0"
+              max="200"
+              value={contrast}
+              onChange={(e) => setContrast(e.target.value)}
+            />
+          </div>
+          <button onClick={applyImageEffects}>Apply Effects</button>
           <button onClick={removeBackground}>Remove Background</button>
           {resultImage && <img src={resultImage} alt="Result" />}
         </div>
