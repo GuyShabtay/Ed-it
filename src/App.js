@@ -1,21 +1,31 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
+import './App.css'
 
 const App = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [resultImage, setResultImage] = useState(null);
   const [brightness, setBrightness] = useState(100);
   const [contrast, setContrast] = useState(100);
-  const [removeBackgroundPressed, setRemoveBackgroundPressed] = useState(false);
+  const [sepia, setSepia] = useState(0);
+  const [grayscale, setGrayscale] = useState(0);
+  const [blur, setBlur] = useState(0);
   const [downloadPressed, setDownloadPressed] = useState(false);
-  const apiKey = process.env.API_KEY;
 
   const onDrop = useCallback((acceptedFiles) => {
     setSelectedImage(acceptedFiles[0]);
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  // const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    noClick: true, // Disable click-to-select
+  });
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedImage(file);
+  };
 
   const applyImageEffects = async () => {
     return new Promise((resolve) => {
@@ -30,8 +40,8 @@ const App = () => {
         canvas.width = img.width;
         canvas.height = img.height;
 
-        // Apply brightness and contrast
-        ctx.filter = `brightness(${brightness}%) contrast(${contrast}%)`;
+        // Apply filters
+        ctx.filter = `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px)`;
 
         // Draw the image on the canvas
         ctx.drawImage(img, 0, 0);
@@ -45,34 +55,6 @@ const App = () => {
     });
   };
 
-  const removeBackground = async () => {
-    if (!selectedImage) return;
-
-    const formData = new FormData();
-    formData.append('size', 'auto');
-    formData.append('image_file', selectedImage);
-
-    try {
-      const response = await axios.post('https://api.remove.bg/v1.0/removebg', formData, {
-        headers: {
-          'X-Api-Key': apiKey,
-        },
-        responseType: 'arraybuffer',
-        encoding: null,
-      });
-
-      if (response.status === 200) {
-        const blob = new Blob([response.data], { type: 'image/png' });
-        const url = URL.createObjectURL(blob);
-        setResultImage(url);
-        setRemoveBackgroundPressed(true);
-      } else {
-        console.error('Error:', response.status, response.statusText);
-      }
-    } catch (error) {
-      console.error('Request failed:', error);
-    }
-  };
 
   const downloadImage = async () => {
     await applyImageEffects(); // Apply effects before downloading
@@ -91,29 +73,44 @@ const App = () => {
 
   return (
     <div>
-      {!selectedImage ? (
-        <div
-          {...getRootProps()}
-          style={{
-            width: '700px',
-            height: '700px',
-            border: `2px solid ${isDragActive ? 'yellow' : 'purple'}`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: 'auto',
-            marginBottom: '20px',
-          }}
-        >
+    
+    {!selectedImage ? (
+      <div
+      {...getRootProps()}
+      style={{
+        width: '100vw',
+        height: '100vh',
+        background: `${isDragActive ? 'yellow' : 'transparent'}`,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+       
+      }}
+      >
+      <input
+    type="file"
+    id="file-input"
+     name="file-input"
+    onChange={handleImageChange}
+  />
+  <div className="drop-or-select">
+  <label id="file-input-label" for="file-input">Upload Image</label>
+  <p>or drop a file</p>
+  </div>
           <input {...getInputProps()} />
-          {isDragActive ? 'Drop the image here' : 'Drag and drop image here or click to select'}
         </div>
       ) : (
         <div>
           <img
             src={URL.createObjectURL(selectedImage)}
             alt="Selected Image"
-            style={{ width: '700px', height: '700px', margin: 'auto', marginBottom: '20px', filter: `brightness(${brightness}%) contrast(${contrast}%)` }}
+            style={{
+              width: '700px',
+              height: '700px',
+              margin: 'auto',
+              marginBottom: '20px',
+              filter: `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px)`,
+            }}
             onLoad={handleImageLoad}
           />
           <div>
@@ -140,7 +137,43 @@ const App = () => {
               onChange={(e) => setContrast(e.target.value)}
             />
           </div>
-          {!removeBackgroundPressed && <button onClick={removeBackground}>Remove Background</button>}
+          <div>
+            <label htmlFor="sepia">Sepia:</label>
+            <input
+              type="range"
+              id="sepia"
+              name="sepia"
+              min="0"
+              max="100"
+              value={sepia}
+              onChange={(e) => setSepia(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="grayscale">Grayscale:</label>
+            <input
+              type="range"
+              id="grayscale"
+              name="grayscale"
+              min="0"
+              max="100"
+              value={grayscale}
+              onChange={(e) => setGrayscale(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="blur">Blur:</label>
+            <input
+              type="range"
+              id="blur"
+              name="blur"
+              min="0"
+              max="10"
+              step="0.1"
+              value={blur}
+              onChange={(e) => setBlur(e.target.value)}
+            />
+          </div>
           <button onClick={downloadImage}>Download Image</button>
           {resultImage && <img src={resultImage} alt="Result" />}
         </div>
@@ -149,4 +182,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default App
