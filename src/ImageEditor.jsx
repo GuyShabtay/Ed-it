@@ -8,6 +8,8 @@ import './ImageEditor.css';
 const ImageEditor = () => {
   const [image, setImage] = useState(null);
   const [borderRadius, setBorderRadius] = useState(0);
+  const [borderSize, setBorderSize] = useState(0);
+  const [borderColor, setBorderColor] = useState('#000000');
   const [selectedImage, setSelectedImage] = useState(null);
   const [resultImage, setResultImage] = useState(null);
   const [brightness, setBrightness] = useState(100);
@@ -93,7 +95,14 @@ const ImageEditor = () => {
   const handleBorderRadiusChange = (e) => {
     setBorderRadius(parseInt(e.target.value, 10));
   };
-  // const filterStyle = `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hue}deg) saturate(${saturation}%) invert(${inversion}%)`;
+
+  const handleBorderSizeChange = (e) => {
+    setBorderSize(parseInt(e.target.value, 10));
+  };
+
+  const handleBorderColorChange = (e) => {
+    setBorderColor(e.target.value);
+  };
 
   const handleDownload = () => {
       html2canvas(imageRef.current, { backgroundColor: null }).then((canvas) => {
@@ -234,19 +243,32 @@ const ImageEditor = () => {
         </div>
 
         <div className="slider">
-        <label>Border Radius:</label>
-        <input
-          type='range'
-          min='0'
-          max='50'
-          value={borderRadius}
-          onChange={(e) => setBorderRadius(e.target.value)}
+          <label htmlFor="borderSize">Border Size:</label>
+          <input
+            type="range"
+            id="borderSize"
+            name="borderSize"
+            min="0"
+            max="50"
+            value={borderSize}
+            onChange={handleBorderSizeChange}
           />
         </div>
+        <div className="color-input">
+          <label htmlFor="borderColor">Border Color:</label>
+          <input
+            type="color"
+            id="borderColor"
+            name="borderColor"
+            value={borderColor}
+            onChange={handleBorderColorChange}
+          />
+        </div>
+
         <button onClick={rotateLeft} className='rotate-left'>Rotate Left</button>
         <button onClick={rotateRight} className='rotate-right'>Rotate Right</button>
         <button onClick={flipVertical} className='flip-vertical'>Flip Vertical</button>
-          <button onClick={flipHorizontal} className='flip-horizontal'>Flip Horizontal</button>
+        <button onClick={flipHorizontal} className='flip-horizontal'>Flip Horizontal</button>
 
         {rotate}
           </div>
@@ -257,27 +279,19 @@ const ImageEditor = () => {
                 ref={imageRef}
                 style={{
                   borderRadius: `${borderRadius}%`,
-                  // transform: `rotate(${rotate}deg) scaleX(${flipX}) scaleY(${flipY})`,
-                  // transform: `perspective(50px) rotateY(-1deg)`,
-                  // transformOrigin: '50% 50%', // Set the rotation point to the center of the image
-                  width: '400px'  ,
-                  transform: 'perspective(130px) rotateY(-8deg)',
+                  border: `${borderSize}px solid ${borderColor}`,
+                  transform: `rotate(${rotate}deg) scaleX(${flipX}) scaleY(${flipY})`,
+                 
+                  // transform: 'perspective(230px) rotateY(-8deg)',
                   filter: `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hue}deg) saturate(${saturation}%) invert(${inversion}%)`,
+                  // transformOrigin: '50% 50%', // Set the rotation point to the center of the image
 
 
-                  overflow: 'hidden',
+                  // overflow: 'hidden',
 
                 }}
               >
-              <img id='image' src={URL.createObjectURL(selectedImage)} alt='Edited'
-              style={{
-
-                // width: '400px'  ,
-                // transform: 'perspective(130px) rotateY(-8deg)',
-
-                // overflow: 'hidden',
-
-              }} />
+              <img id='image' src={URL.createObjectURL(selectedImage)} alt='Edited' />
               </div>
               <button onClick={htmlToImageConvert}>Download Image</button>
             </div>
@@ -288,6 +302,9 @@ const ImageEditor = () => {
   );
 };
 export default ImageEditor;
+
+
+
 // import React, { createRef, useState } from 'react'
 
 
