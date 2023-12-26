@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import html2canvas from 'html2canvas';
 import './App.css';
 
 const App = () => {
@@ -14,8 +13,8 @@ const App = () => {
   const [hue, setHue] = useState(0);
   const [saturation, setSaturation] = useState(100);
   const [inversion, setInversion] = useState(0);
-  const [borderRadius, setBorderRadius] = useState(0);
   const [downloadPressed, setDownloadPressed] = useState(false);
+  const [rotate, setRotate] = useState(0);
 
   const onDrop = useCallback((acceptedFiles) => {
     setSelectedImage(acceptedFiles[0]);
@@ -39,19 +38,28 @@ const App = () => {
       const ctx = canvas.getContext('2d');
       const img = new Image();
       img.src = URL.createObjectURL(selectedImage);
-      img.style.transform = `rotate(90deg)`;
-
 
       img.onload = () => {
+        if (isEven(rotate / 90)) {
+
         canvas.width = img.width;
-        canvas.height = img.height;
+      canvas.height = img.height;
+        }
+        else{
+          canvas.width = img.height;
+      canvas.height = img.width;
+        }
 
-        // Apply filters
-        ctx.filter = `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hue}deg) saturate(${saturation}%) invert(${inversion}%)`;
-        ctx.rotate(90 * Math.PI / 180);
+      // Apply filters
+      ctx.filter = `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hue}deg) saturate(${saturation}%) invert(${inversion}%)`;
 
-        // Draw the image on the canvas
-        ctx.drawImage(img, 0, 0);
+      // Rotate the canvas
+      ctx.rotate(rotate * Math.PI / 180);
+
+      // Draw the image on the canvas
+      // ctx.drawImage(img, 0, -canvas.width);
+      ctx.drawImage(img,0, -canvas.width);
+
 
         // Convert canvas to data URL
         const dataUrl = canvas.toDataURL('image/jpeg');
@@ -63,60 +71,41 @@ const App = () => {
   };
 
   const downloadImage = async () => {
-    // Apply effects before downloading
-    await applyImageEffects();
-
-    // Check if the border radius is changed
-    if (borderRadius !== 0) {
-      // Use HTML2Canvas to capture the modified image
-      html2canvas(document.getElementById('image-container')).then((canvas) => {
-        const dataUrl = canvas.toDataURL('image/jpeg');
-
-        // Trigger the download
-        const link = document.createElement('a');
-        link.href = dataUrl;
-        link.download = 'modified_image.png';
-        link.click();
-      });
-    } else {
-      // If border radius is not changed, use the original resultImage for download
-      const link = document.createElement('a');
-      link.href = resultImage;
-      link.download = 'modified_image.png';
-      link.click();
-    }
-
-    // Reset the downloadPressed state
-    setDownloadPressed(false);
+    await applyImageEffects(); // Apply effects before downloading
+    setDownloadPressed(true);
   };
 
   const handleImageLoad = () => {
     if (downloadPressed) {
-      // Check if the border radius is changed
-      if (borderRadius !== 0) {
-        // Use HTML2Canvas to capture the modified image
-        html2canvas(document.getElementById('image-container')).then((canvas) => {
-          const dataUrl = canvas.toDataURL('image/jpeg');
-
-          // Trigger the download
-          const link = document.createElement('a');
-          link.href = dataUrl;
-          link.download = 'modified_image.png';
-          link.click();
-        });
-      } else {
-        // If border radius is not changed, use the original resultImage for download
-        const link = document.createElement('a');
-        link.href = resultImage;
-        link.download = 'modified_image.png';
-        link.click();
-      }
-
-      // Reset the downloadPressed state
+      const link = document.createElement('a');
+      link.href = resultImage;
+      link.download = 'modified_image.png';
+      link.click();
       setDownloadPressed(false);
     }
   };
+  const rotateLeft = () => {
+    setRotate((rotate) => rotate - 90);
+  };
 
+  const rotateRight = () => {
+    setRotate((rotate) => rotate + 90);
+  };
+
+  const flipVertical = () => {
+    setSaturation((prevSaturation) => -prevSaturation);
+  };
+
+  const flipHorizontal = () => {
+    setInversion((prevInversion) => (prevInversion === 100 ? 0 : 100));
+  };
+  function isEven(number) {
+    if (number % 2 === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   return (
     <div>
       {!selectedImage ? (
@@ -244,35 +233,22 @@ const App = () => {
                 onChange={(e) => setInversion(e.target.value)}
               />
             </div>
-            <div className="slider">
-              <label htmlFor="borderRadius">Border Radius:</label>
-              <input
-                type="range"
-                id="borderRadius"
-                name="borderRadius"
-                min="0"
-                max="50"
-                value={borderRadius}
-                onChange={(e) => setBorderRadius(e.target.value)}
-              />
-            </div>
             <button onClick={downloadImage}>Download Image</button>
+            <button onClick={rotateLeft} className='rotate-left'>Rotate Left</button>
+            <button onClick={rotateRight} className='rotate-right'>Rotate Right</button>
+            <button onClick={flipVertical} className='flip-vertical'>Flip Vertical</button>
+            <button onClick={flipHorizontal} className='flip-horizontal'>Flip Horizontal</button>
+            {rotate}
           </div>
-          <div id="image-container">
-            <img
-              src={URL.createObjectURL(selectedImage)}
-              alt="Selected Image"
-              style={{
-                filter: `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hue}deg) saturate(${saturation}%) invert(${inversion}%)`,
-                borderRadius: `${borderRadius}%`,
-              }}
-              onLoad={handleImageLoad}
-            />
-          </div>
-          <button onClick={downloadImage} className='rotate-left'>rotate left</button>
-          <button className='rotate-right'>rotate right</button>
-          <button className='flip-vertical'>flip vertical</button>
-          <button className='flip-horizontal'>flip horizontal</button>
+          <img
+            src={URL.createObjectURL(selectedImage)}
+            alt="Selected Image"
+            style={{
+              filter: `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hue}deg) saturate(${saturation}%) invert(${inversion}%)`,
+              transform:`rotate(${rotate}deg)`,
+            }}
+            onLoad={handleImageLoad}
+          />
         </div>
       )}
     </div>
