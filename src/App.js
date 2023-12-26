@@ -39,6 +39,8 @@ const App = () => {
       const ctx = canvas.getContext('2d');
       const img = new Image();
       img.src = URL.createObjectURL(selectedImage);
+      img.style.transform = `rotate(90deg)`;
+
 
       img.onload = () => {
         canvas.width = img.width;
@@ -46,7 +48,7 @@ const App = () => {
 
         // Apply filters
         ctx.filter = `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hue}deg) saturate(${saturation}%) invert(${inversion}%)`;
-        ctx.canvas.style.borderRadius = `${borderRadius}%`;
+        ctx.rotate(90 * Math.PI / 180);
 
         // Draw the image on the canvas
         ctx.drawImage(img, 0, 0);
@@ -267,6 +269,10 @@ const App = () => {
               onLoad={handleImageLoad}
             />
           </div>
+          <button onClick={downloadImage} className='rotate-left'>rotate left</button>
+          <button className='rotate-right'>rotate right</button>
+          <button className='flip-vertical'>flip vertical</button>
+          <button className='flip-horizontal'>flip horizontal</button>
         </div>
       )}
     </div>
