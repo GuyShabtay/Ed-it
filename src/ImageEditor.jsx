@@ -8,8 +8,6 @@ import './ImageEditor.css';
 const ImageEditor = () => {
   const [image, setImage] = useState(null);
   const [borderRadius, setBorderRadius] = useState(0);
-  const [borderSize, setBorderSize] = useState(0);
-  const [borderColor, setBorderColor] = useState('#000000');
   const [selectedImage, setSelectedImage] = useState(null);
   const [resultImage, setResultImage] = useState(null);
   const [brightness, setBrightness] = useState(100);
@@ -94,14 +92,6 @@ const ImageEditor = () => {
 
   const handleBorderRadiusChange = (e) => {
     setBorderRadius(parseInt(e.target.value, 10));
-  };
-
-  const handleBorderSizeChange = (e) => {
-    setBorderSize(parseInt(e.target.value, 10));
-  };
-
-  const handleBorderColorChange = (e) => {
-    setBorderColor(e.target.value);
   };
 
   const handleDownload = () => {
@@ -243,33 +233,21 @@ const ImageEditor = () => {
         </div>
 
         <div className="slider">
-          <label htmlFor="borderSize">Border Size:</label>
-          <input
-            type="range"
-            id="borderSize"
-            name="borderSize"
-            min="0"
-            max="50"
-            value={borderSize}
-            onChange={handleBorderSizeChange}
+        <label>Border Radius:</label>
+        <input
+          type='range'
+          min='0'
+          max='50'
+          value={borderRadius}
+          onChange={(e) => setBorderRadius(e.target.value)}
           />
         </div>
-        <div className="slider">
-          <label htmlFor="borderColor">Border Color:</label>
-          <input
-            type="color"
-            id="borderColor"
-            name="borderColor"
-            value={borderColor}
-            onChange={handleBorderColorChange}
-          />
-        </div>
-        <div className="slider">
         <button onClick={rotateLeft} className='rotate-left'>Rotate Left</button>
         <button onClick={rotateRight} className='rotate-right'>Rotate Right</button>
         <button onClick={flipVertical} className='flip-vertical'>Flip Vertical</button>
-        <button onClick={flipHorizontal} className='flip-horizontal'>Flip Horizontal</button>
-        </div>
+          <button onClick={flipHorizontal} className='flip-horizontal'>Flip Horizontal</button>
+
+          <button onClick={htmlToImageConvert}>Download Image</button>
           </div>
 
             <div>
@@ -278,7 +256,6 @@ const ImageEditor = () => {
                 ref={imageRef}
                 style={{
                   borderRadius: `${borderRadius}%`,
-                  border: `${borderSize}px solid ${borderColor}`,
                   transform: `rotate(${rotate}deg) scaleX(${flipX}) scaleY(${flipY})`,
                  
                   // transform: 'perspective(230px) rotateY(-8deg)',
@@ -286,13 +263,12 @@ const ImageEditor = () => {
                   // transformOrigin: '50% 50%', // Set the rotation point to the center of the image
 
 
-                  // overflow: 'hidden',
+                  overflow: 'hidden',
 
                 }}
               >
               <img id='image' src={URL.createObjectURL(selectedImage)} alt='Edited' />
               </div>
-              <button onClick={htmlToImageConvert}>Download Image</button>
             </div>
 
         </div>
@@ -301,120 +277,4 @@ const ImageEditor = () => {
   );
 };
 export default ImageEditor;
-
-
-
-// import React, { createRef, useState } from 'react'
-
-
-
-
-
-
-// import React, { useRef, useState } from "react";
-// import { toPng } from "html-to-image";
-
-// function ImageEditor() {
-//   const [image, setImage] = useState(null);
-//   const [borderRadius, setBorderRadius] = useState(0);
-//   const [brightness, setBrightness] = useState(100);
-//   const elementRef = useRef(null);
-//   const imageInputRef = useRef(null);
-
-//   const handleImageUpload = (e) => {
-//     const file = e.target.files[0];
-//     if (file) {
-//       const reader = new FileReader();
-//       reader.onload = () => {
-//         setImage(reader.result);
-//       };
-//       reader.readAsDataURL(file);
-//     }
-//   };
-
-//   const htmlToImageConvert = () => {
-//     toPng(imageRef.current, { cacheBust: false })
-//       .then((dataUrl) => {
-//         const link = document.createElement("a");
-//         link.download = "my-image-name.png";
-//         link.href = dataUrl;
-//         link.click();
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   };
-
-//   return (
-//     <div className="App">
-//       <div>
-//         <input type="file" onChange={handleImageUpload} ref={imageInputRef} />
-//         <label>
-//           Border Radius:
-//           <input
-//             type="range"
-//             value={borderRadius}
-//             onChange={(e) => setBorderRadius(e.target.value)}
-//             min="0"
-//             max="50"
-//           />
-//           {borderRadius} px
-//         </label>
-//         <label>
-//           Brightness:
-//           <input
-//             type="range"
-//             value={brightness}
-//             onChange={(e) => setBrightness(e.target.value)}
-//             min="0"
-//             max="200"
-//           />
-//           {brightness} %
-//         </label>
-//       </div>
-//       <div
-//         ref={elementRef}
-//         style={{
-//           position: "relative",
-//           width: "100%",
-//           height: "300px",
-//           overflow: "hidden",
-//           borderRadius: `${borderRadius}px`,
-//         }}
-//       >
-//         {image && (
-//           <img
-//             src={image}
-//             alt="Uploaded"
-//             style={{
-//               width: "100%",
-//               height: "100%",
-//               objectFit: "cover",
-//               filter: `brightness(${brightness}%)`,
-//             }}
-//           />
-//         )}
-//         {!image && (
-//           <h1
-//             style={{
-//               fontFamily: "Arial, Helvetica, sans-serif",
-//               borderCollapse: "collapse",
-//               width: "100%",
-//               height: "100%",
-//               display: "flex",
-//               justifyContent: "center",
-//               alignItems: "center",
-//               margin: "0",
-//             }}
-//           >
-//             hello world
-//           </h1>
-//         )}
-//       </div>
-//       <button onClick={htmlToImageConvert}>Download Image</button>
-//     </div>
-//   );
-// }
-
-// export default ImageEditor;
 
