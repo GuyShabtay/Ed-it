@@ -254,7 +254,7 @@ const ImageEditor = () => {
             onChange={handleBorderSizeChange}
           />
         </div>
-        <div className="color-input">
+        <div className="slider">
           <label htmlFor="borderColor">Border Color:</label>
           <input
             type="color"
@@ -264,13 +264,12 @@ const ImageEditor = () => {
             onChange={handleBorderColorChange}
           />
         </div>
-
+        <div className="slider">
         <button onClick={rotateLeft} className='rotate-left'>Rotate Left</button>
         <button onClick={rotateRight} className='rotate-right'>Rotate Right</button>
         <button onClick={flipVertical} className='flip-vertical'>Flip Vertical</button>
         <button onClick={flipHorizontal} className='flip-horizontal'>Flip Horizontal</button>
-
-        {rotate}
+        </div>
           </div>
 
             <div>
