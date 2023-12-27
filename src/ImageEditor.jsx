@@ -11,6 +11,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import RotateRightIcon from '@mui/icons-material/RotateRight';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import DownloadingIcon from '@mui/icons-material/Downloading';
+import bgImg from './ed-it bg.jpg'
 
 
 import './ImageEditor.css';
@@ -116,11 +117,12 @@ const ImageEditor = () => {
 
   return (
     <div>
-      {!selectedImage ? (
-        <div
-          className={!isDragActive ? 'drop-zone' : 'drop-zone active-drop-zone'}
-          {...getRootProps()}
-        >
+    {!selectedImage ? (
+      <div
+      className={!isDragActive ? 'drop-zone' : 'drop-zone active-drop-zone'}
+      {...getRootProps()}
+      >
+      <h1>Ed-it!</h1>
           <input
             type='file'
             id='file-input'
