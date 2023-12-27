@@ -111,13 +111,13 @@ const ImageEditor = () => {
   };
 
   return (
-    <div>
+    <div className={!image ? 'main-component': 'main-component edit' }>
+    <h1>ED-IT!</h1>
       {!selectedImage ? (
         <div
           className='drop-zone'
           {...getRootProps()}
         >
-          <h1>Ed-it!</h1>
           <input
             type='file'
             id='file-input'
