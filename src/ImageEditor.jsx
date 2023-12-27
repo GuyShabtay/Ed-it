@@ -142,6 +142,9 @@ const ImageEditor = () => {
             )}
           </div>
           <input {...getInputProps()} />
+          <div className='layer'>
+          <h1>Drop image anywhere</h1>
+          </div>
         </div>
       ) : (
         <div className='edit'>
