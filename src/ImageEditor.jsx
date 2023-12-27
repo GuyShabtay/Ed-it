@@ -2,6 +2,16 @@ import React, { useState, useRef, useCallback } from 'react';
 import html2canvas from 'html2canvas';
 import { useDropzone } from 'react-dropzone';
 import { toPng } from "html-to-image";
+import reflectHorizontal from './reflect horizontal.png'
+import reflectVertical from './reflect vertical.png'
+import HomeIcon from '@mui/icons-material/Home';
+import Button from '@mui/material/Button';
+import FlipIcon from '@mui/icons-material/Flip';
+import MenuIcon from "@mui/icons-material/Menu";
+import RotateRightIcon from '@mui/icons-material/RotateRight';
+import RotateLeftIcon from '@mui/icons-material/RotateLeft';
+import DownloadingIcon from '@mui/icons-material/Downloading';
+
 
 import './ImageEditor.css';
 
@@ -242,12 +252,12 @@ const ImageEditor = () => {
           onChange={(e) => setBorderRadius(e.target.value)}
           />
         </div>
-        <button onClick={rotateLeft} className='rotate-left'>Rotate Left</button>
-        <button onClick={rotateRight} className='rotate-right'>Rotate Right</button>
-        <button onClick={flipVertical} className='flip-vertical'>Flip Vertical</button>
-          <button onClick={flipHorizontal} className='flip-horizontal'>Flip Horizontal</button>
-
-          <button onClick={htmlToImageConvert}>Download Image</button>
+        <Button onClick={flipHorizontal} startIcon={<FlipIcon className='icon horizontal' />}></Button>
+        <Button onClick={flipVertical} startIcon={<FlipIcon className='icon vertical' />}></Button>
+        <Button onClick={rotateRight} startIcon={<RotateRightIcon className='icon' />}></Button>
+        <Button onClick={rotateLeft} startIcon={<RotateLeftIcon className='icon' />}></Button>
+       
+          <Button onClick={htmlToImageConvert} startIcon={<DownloadingIcon  />}>Download Image</Button>
           </div>
 
             <div>

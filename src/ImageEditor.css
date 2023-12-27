@@ -28,7 +28,11 @@
   border-radius: 10px;
   padding: 10px 20px;
   cursor: pointer;
+  /* padding: 100px; */
   /* transition: all 0.2s ease-in; */
+}
+p{
+  margin-top: 20px;
 }
 #file-input-label:hover {
   background-color: rgba(0, 73, 128, 0.735);
@@ -78,6 +82,16 @@ img {
 }
 body{
   background-color: bisque;
+}
+#reflect-vertical{
+width: 20px;
+}
+.icon{
+  color: black;
+}
+.vertical{
+  transform: rotate(90deg);
+
 }
 
 
