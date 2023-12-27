@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import html2canvas from 'html2canvas';
 import { useDropzone } from 'react-dropzone';
 import { toPng } from 'html-to-image';
@@ -12,6 +12,8 @@ import RotateRightIcon from '@mui/icons-material/RotateRight';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import DownloadingIcon from '@mui/icons-material/Downloading';
 import bgImg from './ed-it bg.jpg';
+import axios from 'axios';
+
 
 import './ImageEditor.css';
 
@@ -34,6 +36,37 @@ const ImageEditor = () => {
   const [flipY, setFlipY] = useState(1);
   const imageRef = useRef(null);
   const imageInputRef = useRef(null);
+  const [inputImage, setInputImage] = useState(null);
+    const [outputImage, setOutputImage] = useState(null);
+
+   
+
+    const handleProcessImage = async () => {
+      try {
+        // Ensure that imageRef is not null before using it
+        if (imageRef.current) {
+          // Convert the image in the canvas to a data URL
+          const dataUrl = await toPng(imageRef.current, { cacheBust: false });
+  
+          // Send the data URL to the backend for processing
+          const response = await axios.post('http://127.0.0.1:5000/api/remove-background', {
+            imageData: dataUrl.split(',')[1], // Extract base64 part
+          });
+  
+          // Update the state with the processed image
+          setOutputImage(`data:image/png;base64,${response.data.outputImageData}`);
+        }
+      } catch (error) {
+        console.error('Error processing image:', error);
+      }
+    };
+  
+    useEffect(() => {
+      // The useEffect hook ensures that imageRef is set after the component has rendered
+      if (imageRef.current) {
+        // You can perform additional setup here if needed
+      }
+    }, [imageRef]);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -80,6 +113,10 @@ const ImageEditor = () => {
       reader.readAsDataURL(file);
     }
   };
+
+
+
+  
   const rotateLeft = () => {
     setRotate((rotate) => (rotate - 90 + 360) % 360);
   };
@@ -275,6 +312,10 @@ const ImageEditor = () => {
             >
               Download Image
             </Button>
+            <button onClick={handleProcessImage}>Process Image</button>
+
+            {inputImage && <img src={inputImage} alt="Input Image" />}
+            {outputImage && <img src={outputImage} alt="Output Image" />}
           </div>
 
           <div>
