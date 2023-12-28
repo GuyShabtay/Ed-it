@@ -353,26 +353,16 @@ const ImageEditor = () => {
                 <MenuItem value={200}>Very small</MenuItem>
                 <MenuItem value={400}>Small</MenuItem>
                 <MenuItem value={500}>Normal</MenuItem>
-                <MenuItem value={600}>Thirty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value={600}>Big</MenuItem>
+                <MenuItem value={700}>Very Big</MenuItem>
+                <MenuItem value={800}>Thirty</MenuItem>
               </Select>
             </FormControl>
           );
             </div>
             <div>
               <div className='images'>
-                {outputImage &&
-                  <div className="layer overlay">
-                  <div className="output-image-container">
-                   <img src={outputImage} id='output-image' alt='Output Image'  />
-                   <Button
-                onClick={withBg ? htmlToImageConvert : handleDownloadOutput}
-                startIcon={<DownloadingIcon />}
-              ></Button>
-                   </div>
-                   </div>
-                  }
+               
                 <div
                   ref={imageRef}
                   style={{
@@ -396,6 +386,28 @@ const ImageEditor = () => {
                   />
                 </div>
               </div>
+              {outputImage &&
+                <div className="layer overlay">
+                <div className="output-image-container">
+                 <img src={outputImage} id='output-image' alt='Output Image' />
+                 <div>
+                 <Button
+                 className='cancel'
+                 onClick={handleDownloadOutput}
+                 startIcon={<DownloadingIcon />}
+               >
+                 Cancel
+               </Button>
+                 <Button
+                 onClick={handleDownloadOutput}
+                 startIcon={<DownloadingIcon />}
+               >
+                 Download Image
+               </Button>
+               </div>
+                 </div>
+                 </div>
+                }
             </div>
           </div>
         </div>

@@ -174,10 +174,11 @@ background-color: transparent;
   width: 100%;
   height: 100%;
   z-index: 1; */
+  /* width: 500px; */
   display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* text-align: center; */
   flex-direction: column;
 
   background-color: white;
@@ -189,4 +190,7 @@ background-color: transparent;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1; */
+}
+.cancel{
+  color:red
 }
