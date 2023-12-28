@@ -343,8 +343,12 @@ const ImageEditor = () => {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={100}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={50}>Tiny</MenuItem>
+                <MenuItem value={200}>Very small</MenuItem>
+                <MenuItem value={400}>Small</MenuItem>
+                <MenuItem value={500}>Normal</MenuItem>
+                <MenuItem value={600}>Thirty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
                 <MenuItem value={30}>Thirty</MenuItem>
               </Select>
             </FormControl>
@@ -352,11 +356,7 @@ const ImageEditor = () => {
             </div>
             <div>
               <div className='images'>
-                {outputImage && <img src={outputImage} alt='Output Image' 
-                style={{
-                  height:`${imageSize}px`,
-                  width:'auto',
-                }} />}
+                {outputImage && <img src={outputImage} alt='Output Image'  />}
 
                 <div
                   ref={imageRef}
