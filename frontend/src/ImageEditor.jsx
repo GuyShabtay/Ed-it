@@ -1,27 +1,19 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import html2canvas from 'html2canvas';
 import { useDropzone } from 'react-dropzone';
 import { toPng } from 'html-to-image';
-import reflectHorizontal from './reflect horizontal.png';
-import reflectVertical from './reflect vertical.png';
-import HomeIcon from '@mui/icons-material/Home';
 import Button from '@mui/material/Button';
 import FlipIcon from '@mui/icons-material/Flip';
-import MenuIcon from '@mui/icons-material/Menu';
 import RotateRightIcon from '@mui/icons-material/RotateRight';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import DownloadingIcon from '@mui/icons-material/Downloading';
-import bgImg from './ed-it bg.jpg';
+import WallpaperSharpIcon from '@mui/icons-material/WallpaperSharp';
 import axios from 'axios';
-
-
 import './ImageEditor.css';
 
 const ImageEditor = () => {
   const [image, setImage] = useState(null);
   const [borderRadius, setBorderRadius] = useState(0);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [resultImage, setResultImage] = useState(null);
   const [brightness, setBrightness] = useState(100);
   const [contrast, setContrast] = useState(100);
   const [sepia, setSepia] = useState(0);
@@ -35,26 +27,31 @@ const ImageEditor = () => {
   const [flipX, setFlipX] = useState(1);
   const [flipY, setFlipY] = useState(1);
   const imageRef = useRef(null);
-  const imageInputRef = useRef(null);
-  const [inputImage, setInputImage] = useState(null);
     const [outputImage, setOutputImage] = useState(null);
+    const [withBg, setWithBg] = useState(false);
 
-   
+  
+    const handleDownloadOutput = async () => {
+      // Wait for handleProcessImage to finish before continuing
+      await handleProcessImage();
+    
+      const downloadLink = document.createElement('a');
+      downloadLink.href = outputImage;
+      downloadLink.download = 'output_image.png';
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    };
+    
 
     const handleProcessImage = async () => {
       try {
-        // Ensure that imageRef is not null before using it
         if (imageRef.current) {
-          // Convert the image in the canvas to a data URL
           const dataUrl = await toPng(imageRef.current, { cacheBust: false });
-  
-          // Send the data URL to the backend for processing
-          const response = await axios.post('http://127.0.0.1:5000/api/remove-background', {
-            imageData: dataUrl.split(',')[1], // Extract base64 part
+            const response = await axios.post('http://127.0.0.1:5000/api/remove-background', {
+            imageData: dataUrl.split(',')[1], 
           });
-  
-          // Update the state with the processed image
-          setOutputImage(`data:image/png;base64,${response.data.outputImageData}`);
+            setOutputImage(`data:image/png;base64,${response.data.outputImageData}`);
         }
       } catch (error) {
         console.error('Error processing image:', error);
@@ -62,24 +59,14 @@ const ImageEditor = () => {
     };
   
     useEffect(() => {
-      // The useEffect hook ensures that imageRef is set after the component has rendered
       if (imageRef.current) {
-        // You can perform additional setup here if needed
       }
     }, [imageRef]);
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  
 
   const htmlToImageConvert = () => {
+    
     toPng(imageRef.current, { cacheBust: false })
       .then((dataUrl) => {
         const link = document.createElement('a');
@@ -98,7 +85,7 @@ const ImageEditor = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    noClick: true, // Disable click-to-select
+    noClick: true, 
   });
 
   const handleImageChange = (e) => {
@@ -114,9 +101,6 @@ const ImageEditor = () => {
     }
   };
 
-
-
-  
   const rotateLeft = () => {
     setRotate((rotate) => (rotate - 90 + 360) % 360);
   };
@@ -133,28 +117,16 @@ const ImageEditor = () => {
     else setFlipY(1);
   };
 
-  const handleBorderRadiusChange = (e) => {
-    setBorderRadius(parseInt(e.target.value, 10));
-  };
-
-  const handleDownload = () => {
-    html2canvas(imageRef.current, { backgroundColor: null }).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.href = imgData;
-      link.download = 'edited_image.png';
-      link.click();
-    });
-  };
 
   return (
-    <div className={!image ? 'main-component': 'main-component edit' }>
-    <h1>ED-IT!</h1>
-      {!selectedImage ? (
-        <div
-          className='drop-zone'
-          {...getRootProps()}
-        >
+    <div>
+    {!selectedImage ? (
+      <div
+      className='drop-zone'
+      {...getRootProps()}
+      >
+      <div className={!image ? 'main-component': 'main-component edit' }>
+        <h1>ED-IT!</h1>
           <input
             type='file'
             id='file-input'
@@ -169,6 +141,7 @@ const ImageEditor = () => {
               <p>or drop a file</p>
             </div>
           </div>
+          
           {isDragActive && (
             <div>
               <input {...getInputProps()} />
@@ -178,7 +151,13 @@ const ImageEditor = () => {
             </div>
           )}
         </div>
+        </div>
+
       ) : (
+        <div className='edit-container'>
+
+        <h1>ED-IT!</h1>
+
         <div className='edit'>
           <div className='sliders'>
             <div className='slider'>
@@ -289,6 +268,7 @@ const ImageEditor = () => {
                 onChange={(e) => setBorderRadius(e.target.value)}
               />
             </div>
+            
             <Button
               onClick={flipHorizontal}
               startIcon={<FlipIcon className='icon horizontal' />}
@@ -306,39 +286,64 @@ const ImageEditor = () => {
               startIcon={<RotateLeftIcon className='icon' />}
             ></Button>
 
+            <Button className='remove-bg' onClick={handleProcessImage}  startIcon={<WallpaperSharpIcon/>}>Remove Background</Button>
             <Button
-              onClick={htmlToImageConvert}
-              startIcon={<DownloadingIcon />}
+            onClick={withBg ? htmlToImageConvert : handleDownloadOutput}
+            startIcon={<DownloadingIcon />}
             >
               Download Image
             </Button>
-            <button onClick={handleProcessImage}>Process Image</button>
+            <div>
+  <label>
+    <input
+      type="radio"
+      name="backgroundOption"
+      value="input"
+      checked={!withBg}
+      onChange={() => setWithBg(false)}
+    />
+    Without Background
+  </label>
+  <label>
+    <input
+      type="radio"
+      name="backgroundOption"
+      value="output"
+      checked={withBg}
+      onChange={() => setWithBg(true)}
+    />
+    With Background
+  </label>
+</div>
 
-            {inputImage && <img src={inputImage} alt="Input Image" />}
-            {outputImage && <img src={outputImage} alt="Output Image" />}
-          </div>
+            <Button onClick={handleDownloadOutput}>Download Output Image</Button>
+            
 
-          <div>
+
+            </div>
+            <div>
+            <div className="images">
+           
+            {outputImage && <img src={outputImage} alt="Output Image"/>}
+            
             <div
-              ref={imageRef}
-              style={{
-                borderRadius: `${borderRadius}%`,
-                transform: `rotate(${rotate}deg) scaleX(${flipX}) scaleY(${flipY})`,
-
-                // transform: 'perspective(230px) rotateY(-8deg)',
-                filter: `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hue}deg) saturate(${saturation}%) invert(${inversion}%)`,
-                // transformOrigin: '50% 50%', // Set the rotation point to the center of the image
-
-                overflow: 'hidden',
-              }}
+            ref={imageRef}
+            style={{
+              borderRadius: `${borderRadius}%`,
+              transform: `rotate(${rotate}deg) scaleX(${flipX}) scaleY(${flipY})`,
+              filter: `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hue}deg) saturate(${saturation}%) invert(${inversion}%)`,
+              overflow: 'hidden',
+            }}
             >
-              <img
-                id='image'
-                src={URL.createObjectURL(selectedImage)}
-                alt='Edited'
-              />
+            <img
+            id='image'
+            src={URL.createObjectURL(selectedImage)}
+            alt='Edited'
+            />
+            </div>
             </div>
           </div>
+        </div>
         </div>
       )}
     </div>
