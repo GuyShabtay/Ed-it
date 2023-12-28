@@ -260,10 +260,8 @@ const ImageEditor = () => {
                   min='0'
                   max='100'
                   value={inversion}
-                  onChange={(e) => {
-                    setInversion(e.target.value);
-                    setOutputImage(null);
-                  }}                />
+                  onChange={(e) => setInversion(e.target.value)}
+                  />
               </div>
 
               <div className='slider'>
@@ -273,10 +271,8 @@ const ImageEditor = () => {
                   min='0'
                   max='50'
                   value={borderRadius}
-                  onChange={(e) => {
-                    setBorderRadius(e.target.value);
-                    setOutputImage(null);
-                  }}
+                  onChange={(e) => setBorderRadius(e.target.value)}
+
                   
                 />
               </div>
@@ -308,32 +304,9 @@ const ImageEditor = () => {
               >
                 Remove Background
               </Button>
-              {showRadioBtns && (
-                <div className='radio-btns'>
-                  <label>
-                    <input
-                      type='radio'
-                      name='backgroundOption'
-                      value='output'
-                      checked={!withBg}
-                      onChange={() => setWithBg(false)}
-                    />
-                    Without Background
-                  </label>
-                  <label>
-                    <input
-                      type='radio'
-                      name='backgroundOption'
-                      value='input'
-                      checked={withBg}
-                      onChange={() => setWithBg(true)}
-                    />
-                    With Background
-                  </label>
-                </div>
-              )}
+             
               <Button
-                onClick={withBg ? htmlToImageConvert : handleDownloadOutput}
+                onClick={htmlToImageConvert}
                 startIcon={<DownloadingIcon />}
               >
                 Download Image
@@ -353,13 +326,13 @@ const ImageEditor = () => {
                 <MenuItem value={50}>Tiny</MenuItem>
                 <MenuItem value={200}>Very small</MenuItem>
                 <MenuItem value={400}>Small</MenuItem>
-                <MenuItem value={500}>Normal</MenuItem>
-                <MenuItem value={600}>Big</MenuItem>
-                <MenuItem value={700}>Very Big</MenuItem>
-                <MenuItem value={800}>Thirty</MenuItem>
+                <MenuItem value={600}>Normal</MenuItem>
+                <MenuItem value={700}>Big</MenuItem>
+                <MenuItem value={800}>Very Big</MenuItem>
+                <MenuItem value={900}>Giant</MenuItem>
               </Select>
             </FormControl>
-          );
+       
             </div>
             <div>
               <div className='images'>
