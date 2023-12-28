@@ -155,3 +155,7 @@ background-color: transparent;
 .main-component .bg{
   background-color: white;
 }
+.radio-btns{
+  display: flex;
+  justify-content: space-around;
+}
