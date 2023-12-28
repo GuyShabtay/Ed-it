@@ -259,8 +259,10 @@ const ImageEditor = () => {
                   min='0'
                   max='100'
                   value={inversion}
-                  onChange={(e) => setInversion(e.target.value)}
-                />
+                  onChange={(e) => {
+                    setInversion(e.target.value);
+                    setOutputImage(null);
+                  }}                />
               </div>
 
               <div className='slider'>
@@ -270,7 +272,11 @@ const ImageEditor = () => {
                   min='0'
                   max='50'
                   value={borderRadius}
-                  onChange={(e) => setBorderRadius(e.target.value)}
+                  onChange={(e) => {
+                    setBorderRadius(e.target.value);
+                    setOutputImage(null);
+                  }}
+                  
                 />
               </div>
 
@@ -356,8 +362,17 @@ const ImageEditor = () => {
             </div>
             <div>
               <div className='images'>
-                {outputImage && <img src={outputImage} alt='Output Image'  />}
-
+                {outputImage &&
+                  <div className="layer overlay">
+                  <div className="output-image-container">
+                   <img src={outputImage} id='output-image' alt='Output Image'  />
+                   <Button
+                onClick={withBg ? htmlToImageConvert : handleDownloadOutput}
+                startIcon={<DownloadingIcon />}
+              ></Button>
+                   </div>
+                   </div>
+                  }
                 <div
                   ref={imageRef}
                   style={{
