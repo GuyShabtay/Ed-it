@@ -329,7 +329,7 @@ const ImageEditor = () => {
                     transform: `rotate(${rotate}deg) scaleX(${flipX}) scaleY(${flipY})`,
                     filter: `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hue}deg) saturate(${saturation}%) invert(${inversion}%)`,
                     overflow: 'hidden',
-                    transition: '0.5s all ease-in-out'
+                    transition: '0.5s transform ease-in-out'
                   }}
                 >
                   <img
