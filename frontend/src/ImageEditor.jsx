@@ -22,7 +22,6 @@ const ImageEditor = () => {
   const [hue, setHue] = useState(0);
   const [saturation, setSaturation] = useState(100);
   const [inversion, setInversion] = useState(0);
-  const [downloadPressed, setDownloadPressed] = useState(false);
   const [rotate, setRotate] = useState(0);
   const [flipX, setFlipX] = useState(1);
   const [flipY, setFlipY] = useState(1);
@@ -32,9 +31,6 @@ const ImageEditor = () => {
   const [showRadioBtns, setShowRadioBtns] = useState(false);
 
   const handleDownloadOutput = async () => {
-    // Wait for handleProcessImage to finish before continuing
-    await handleProcessImage();
-
     const downloadLink = document.createElement('a');
     downloadLink.href = outputImage;
     downloadLink.download = 'output_image.png';
