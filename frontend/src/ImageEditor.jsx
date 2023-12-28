@@ -9,6 +9,12 @@ import DownloadingIcon from '@mui/icons-material/Downloading';
 import WallpaperSharpIcon from '@mui/icons-material/WallpaperSharp';
 import axios from 'axios';
 import './ImageEditor.css';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
+  
 
 const ImageEditor = () => {
   const [image, setImage] = useState(null);
@@ -29,6 +35,12 @@ const ImageEditor = () => {
   const [outputImage, setOutputImage] = useState(null);
   const [withBg, setWithBg] = useState(true);
   const [showRadioBtns, setShowRadioBtns] = useState(false);
+  // const [imageHeight, setImageHeight] = useState(600);
+  const [imageSize, setImageSize] = useState('');
+
+  const handleChange = (event) => {
+    setImageSize(event.target.value);
+  };
 
   const handleDownloadOutput = async () => {
     const downloadLink = document.createElement('a');
@@ -64,6 +76,7 @@ const ImageEditor = () => {
   }, [imageRef]);
 
   const htmlToImageConvert = () => {
+    // setImageHeight(100)
     toPng(imageRef.current, { cacheBust: false })
       .then((dataUrl) => {
         const link = document.createElement('a');
@@ -74,6 +87,7 @@ const ImageEditor = () => {
       .catch((err) => {
         console.log(err);
       });
+
   };
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -317,25 +331,53 @@ const ImageEditor = () => {
               >
                 Download Image
               </Button>
+              <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+              <InputLabel id="demo-select-small-label">Image Size</InputLabel>
+              <Select
+                labelId="demo-select-small-label"
+                id="demo-select-small"
+                value={imageSize}
+                label="Image Size"
+                onChange={handleChange}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={100}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+          );
             </div>
             <div>
               <div className='images'>
-                {outputImage && <img src={outputImage} alt='Output Image' />}
+                {outputImage && <img src={outputImage} alt='Output Image' 
+                style={{
+                  height:`${imageSize}px`,
+                  width:'auto',
+                }} />}
 
                 <div
                   ref={imageRef}
                   style={{
+                    height:`${imageSize}px`,
+                  width:'auto',
                     borderRadius: `${borderRadius}%`,
                     transform: `rotate(${rotate}deg) scaleX(${flipX}) scaleY(${flipY})`,
                     filter: `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hue}deg) saturate(${saturation}%) invert(${inversion}%)`,
                     overflow: 'hidden',
                     transition: '0.5s transform ease-in-out'
+                    
                   }}
                 >
                   <img
                     id='image'
                     src={URL.createObjectURL(selectedImage)}
-                    alt='Edited'
+                    alt='Edited' style={{
+                      height:`${imageSize}px`,
+                      width:'auto',
+                    }}
                   />
                 </div>
               </div>
