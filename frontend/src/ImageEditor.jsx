@@ -99,7 +99,7 @@ const ImageEditor = () => {
   };
 
   const rotateLeft = () => {
-    setRotate((rotate) => (rotate - 90 + 360));
+    setRotate((rotate) => (rotate - 90));
   };
 
   const rotateRight = () => {
