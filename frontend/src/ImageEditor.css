@@ -191,6 +191,6 @@ background-color: transparent;
   transform: translateX(-50%);
   z-index: 1; */
 }
-.cancel{
+button.cancel{
   color:red
 }

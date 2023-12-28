@@ -13,6 +13,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 
   
 
@@ -393,8 +394,8 @@ const ImageEditor = () => {
                  <div>
                  <Button
                  className='cancel'
-                 onClick={handleDownloadOutput}
-                 startIcon={<DownloadingIcon />}
+                 onClick={() => setOutputImage(null)}
+                 startIcon={<CancelOutlinedIcon />}
                >
                  Cancel
                </Button>
