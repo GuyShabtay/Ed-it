@@ -29,6 +29,7 @@ const ImageEditor = () => {
   const imageRef = useRef(null);
     const [outputImage, setOutputImage] = useState(null);
     const [withBg, setWithBg] = useState(false);
+    const [showRadioBtns, setShowRadioBtns] = useState(false);
 
   
     const handleDownloadOutput = async () => {
@@ -286,13 +287,17 @@ const ImageEditor = () => {
               startIcon={<RotateLeftIcon className='icon' />}
             ></Button>
 
-            <Button className='remove-bg' onClick={handleProcessImage}  startIcon={<WallpaperSharpIcon/>}>Remove Background</Button>
+            <Button className='remove-bg' onClick={() => { 
+              handleProcessImage(); 
+              setShowRadioBtns(true);
+            }}  startIcon={<WallpaperSharpIcon/>}>Remove Background</Button>
             <Button
             onClick={withBg ? htmlToImageConvert : handleDownloadOutput}
             startIcon={<DownloadingIcon />}
             >
               Download Image
             </Button>
+            {showRadioBtns && 
             <div>
   <label>
     <input
@@ -315,8 +320,8 @@ const ImageEditor = () => {
     With Background
   </label>
 </div>
+}
 
-            <Button onClick={handleDownloadOutput}>Download Output Image</Button>
             
 
 
