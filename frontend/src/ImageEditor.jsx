@@ -15,7 +15,6 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import LoadingSpinner from './assetes/LoadingSpinner/LoadingSpinner';
-import ImageViewer from './ImageViewer'; // Replace with the actual path to your ImageViewer file
 
 
   
@@ -169,8 +168,6 @@ const ImageEditor = () => {
         </div>
       ) : (
         <div className='edit-container'>
-          <h1>ED-IT!</h1>
-
           <div className='edit'>
             <div className='sliders'>
               <div className='slider'>
@@ -284,6 +281,9 @@ const ImageEditor = () => {
                 />
               </div>
 
+              
+              </div>
+              <div className="row">
               <Button
                 onClick={flipHorizontal}
                 startIcon={<FlipIcon className='icon horizontal' />}
@@ -300,6 +300,7 @@ const ImageEditor = () => {
                 onClick={rotateLeft}
                 startIcon={<RotateLeftIcon className='icon' />}
               ></Button>
+              </div>
 
               <Button
                 className='remove-bg'
@@ -339,34 +340,27 @@ const ImageEditor = () => {
                 <MenuItem value={900}>Giant</MenuItem>
               </Select>
             </FormControl>
-       
-            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <div>
-              <div className='images'>
-               
-                <div
-                  ref={imageRef}
-                  style={{
-                    height:`${imageSize}px`,
-                  width:'auto',
-                    borderRadius: `${borderRadius}%`,
-                    transform: `rotate(${rotate}deg) scaleX(${flipX}) scaleY(${flipY})`,
-                    filter: `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hue}deg) saturate(${saturation}%) invert(${inversion}%)`,
-                    overflow: 'hidden',
-                    transition: '0.5s transform ease-in-out'
-                    
-                  }}
-                >
-                  <img
-                    id='image'
-                    src={URL.createObjectURL(selectedImage)}
-                    alt='Edited' style={{
-                      height:`${imageSize}px`,
-                      width:'auto',
-                    }}
-                  />
-                </div>
-              </div>
+             
               {(outputImage || isLoading) &&
                 <div className="layer overlay">
                 <div className="output-image-container">
@@ -391,9 +385,32 @@ const ImageEditor = () => {
                </Button>
                </div>
                  </div>
+                 
                  </div>
                 }
             </div>
+          </div>               
+          <div
+            ref={imageRef}
+            style={{
+              height:`${imageSize}px`,
+            width:'auto',
+              borderRadius: `${borderRadius}%`,
+              transform: `rotate(${rotate}deg) scaleX(${flipX}) scaleY(${flipY})`,
+              filter: `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hue}deg) saturate(${saturation}%) invert(${inversion}%)`,
+              overflow: 'hidden',
+              transition: '0.5s transform ease-in-out'
+              
+            }}
+          >
+            <img
+              id='image'
+              src={URL.createObjectURL(selectedImage)}
+              alt='Edited' style={{
+                height:`${imageSize}px`,
+                width:'auto',
+              }}
+            />
           </div>
         </div>
       )}
