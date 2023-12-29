@@ -14,6 +14,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import LoadingSpinner from './assetes/LoadingSpinner/LoadingSpinner';
+import ImageViewer from './ImageViewer'; // Replace with the actual path to your ImageViewer file
+
 
   
 
@@ -37,7 +40,7 @@ const ImageEditor = () => {
   const [withBg, setWithBg] = useState(true);
   const [showRadioBtns, setShowRadioBtns] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [imageSize, setImageSize] = useState(500);
+  const [imageSize, setImageSize] = useState('');
 
   const handleChange = (event) => {
     setImageSize(event.target.value);
@@ -53,6 +56,7 @@ const ImageEditor = () => {
   };
 
   const handleProcessImage = async () => {
+    setIsLoading(true);
     try {
       if (imageRef.current) {
         const dataUrl = await toPng(imageRef.current, { cacheBust: false });
@@ -69,6 +73,8 @@ const ImageEditor = () => {
     } catch (error) {
       console.error('Error processing image:', error);
     }
+    setIsLoading(false);
+
   };
 
   useEffect(() => {
@@ -77,7 +83,7 @@ const ImageEditor = () => {
   }, [imageRef]);
 
   const htmlToImageConvert = () => {
-    // setImageHeight(100)
+    setImageSize(100)
     toPng(imageRef.current, { cacheBust: false })
       .then((dataUrl) => {
         const link = document.createElement('a');
@@ -88,6 +94,7 @@ const ImageEditor = () => {
       .catch((err) => {
         console.log(err);
       });
+      setImageSize(500)
 
   };
 
@@ -360,10 +367,14 @@ const ImageEditor = () => {
                   />
                 </div>
               </div>
-              {outputImage &&
+              {(outputImage || isLoading) &&
                 <div className="layer overlay">
                 <div className="output-image-container">
-                 <img src={outputImage} id='output-image' alt='Output Image' />
+                {isLoading && <LoadingSpinner /> }
+                 {outputImage &&<img src={outputImage} id='output-image' alt='Output Image' style={{
+                  height:`${imageSize}px`,
+                  width:'auto',
+                }} />}
                  <div>
                  <Button
                  className='cancel'

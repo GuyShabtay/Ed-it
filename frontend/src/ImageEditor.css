@@ -3,6 +3,12 @@
   padding: 0;
   box-sizing: border-box;
 }
+body{
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+}
 .drop-or-select{
   border: 1px solid black;
   border-radius: 50px;
@@ -62,21 +68,21 @@ p{
   background: rgba(0, 106, 187, 0.549);
   box-shadow: 10px 10px 10px rgba(0.7, 0.7, 0.7, 0.3); 
 }
-/* img {
-  height: 600px;
-} */
+img {
+  height: 500px;
+}
 .edit{
   width: 100%;
   padding-top: 20px;
-  /* height: 100vh; */
   display: flex;
   justify-content: space-around;
   align-items: center;
   text-align: center;
   /* border: 3px green solid; */
   background-image: none;
-  background-color: whitesmoke;
+  background-color: transparent;
   flex-wrap: wrap;
+  align-self: flex-end;
 
 
 }
@@ -150,6 +156,12 @@ background-color: transparent;
 .edit-container{
   /* background-color: transparent; */
   background: url(./assetes/images/tools\ bg.jpg) no-repeat center center/cover;
+  border: 3px red solid;
+  height: 100vh;
+  display:flex ;
+  flex-direction: column;
+  justify-content: center;
+
 
 }
 .main-component .bg{
