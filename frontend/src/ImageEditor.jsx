@@ -83,7 +83,7 @@ const ImageEditor = () => {
   }, [imageRef]);
 
   const htmlToImageConvert = () => {
-    setImageSize(100)
+    // setImageSize(100)
     toPng(imageRef.current, { cacheBust: false })
       .then((dataUrl) => {
         const link = document.createElement('a');
@@ -94,7 +94,7 @@ const ImageEditor = () => {
       .catch((err) => {
         console.log(err);
       });
-      setImageSize(500)
+      // setImageSize(500)
 
   };
 

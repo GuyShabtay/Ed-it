@@ -69,7 +69,10 @@ p{
   box-shadow: 10px 10px 10px rgba(0.7, 0.7, 0.7, 0.3); 
 }
 img {
-  height: 500px;
+  height: 100vh;
+  /* position: absolute;
+  left:0;
+  bottom: 0; */
 }
 .edit{
   width: 100%;
@@ -195,6 +198,11 @@ background-color: transparent;
 
   background-color: white;
   border-radius: 20px;
+  /* position: absolute;
+  left:0;
+  bottom: 0; */
+  overflow: auto;
+
 }
 #output-image{
   /* position: fixed;
