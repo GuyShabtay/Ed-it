@@ -62,9 +62,9 @@ p{
   background: rgba(0, 106, 187, 0.549);
   box-shadow: 10px 10px 10px rgba(0.7, 0.7, 0.7, 0.3); 
 }
-img {
+/* img {
   height: 600px;
-}
+} */
 .edit{
   width: 100%;
   padding-top: 20px;
@@ -140,7 +140,7 @@ background-color: transparent;
   display: flex;
   align-items: center;
   flex-direction: column;
-  background: url(./ed-it\ bg.jpg) no-repeat center center/cover;
+  background: url(./assetes/images/ed-it\ bg.jpg) no-repeat center center/cover;
 }
 .images{
   display: flex;
@@ -149,7 +149,7 @@ background-color: transparent;
 }
 .edit-container{
   /* background-color: transparent; */
-  background: url(./tools\ bg.jpg) no-repeat center center/cover;
+  background: url(./assetes/images/tools\ bg.jpg) no-repeat center center/cover;
 
 }
 .main-component .bg{

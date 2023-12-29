@@ -36,8 +36,8 @@ const ImageEditor = () => {
   const [outputImage, setOutputImage] = useState(null);
   const [withBg, setWithBg] = useState(true);
   const [showRadioBtns, setShowRadioBtns] = useState(false);
-  // const [imageHeight, setImageHeight] = useState(600);
-  const [imageSize, setImageSize] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [imageSize, setImageSize] = useState(500);
 
   const handleChange = (event) => {
     setImageSize(event.target.value);
