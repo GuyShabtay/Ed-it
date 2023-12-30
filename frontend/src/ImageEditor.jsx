@@ -269,7 +269,7 @@ const ImageEditor = () => {
               </div>
 
               <div className='slider'>
-                <label>Border Radius:</label>
+                <label>Radius:</label>
                 <input
                   type='range'
                   min='0'
@@ -313,13 +313,7 @@ const ImageEditor = () => {
                 Remove Background
               </Button>
              
-              <Button
-                onClick={htmlToImageConvert}
-                startIcon={<DownloadingIcon />}
-              >
-                Download Image
-              </Button>
-              <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+              <FormControl sx={{ m: 1, minWidth: 120 }} size="small" className='form-control'>
               <InputLabel id="demo-select-small-label">Image Size</InputLabel>
               <Select
                 labelId="demo-select-small-label"
@@ -340,6 +334,12 @@ const ImageEditor = () => {
                 <MenuItem value={900}>Giant</MenuItem>
               </Select>
             </FormControl>
+              <Button
+                onClick={htmlToImageConvert}
+                startIcon={<DownloadingIcon />}
+              >
+                Download Image
+              </Button>
 
 
 
@@ -405,6 +405,7 @@ const ImageEditor = () => {
           >
             <img
               id='image'
+              className={(rotate/90)%2===1 ? 'rotated-image':''}
               src={URL.createObjectURL(selectedImage)}
               alt='Edited' style={{
                 height:`${imageSize}px`,
