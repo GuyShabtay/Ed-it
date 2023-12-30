@@ -367,6 +367,7 @@ const ImageEditor = () => {
                 {isLoading && <LoadingSpinner /> }
                  {outputImage &&<img src={outputImage} id='output-image' alt='Output Image' style={{
                   height:`${imageSize}px`,
+                  maxHeight:`600px`,
                   width:'auto',
                 }} />}
                  <div>
