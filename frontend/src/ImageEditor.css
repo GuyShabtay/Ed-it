@@ -21,9 +21,11 @@ body{
   flex-direction: column;
   box-shadow: 10px 10px 20px rgba(0.7, 0.7, 0.7, 0.7); /* Stronger shadow */
   /* margin-top: 50px; */
-  backdrop-filter: blur(3px); /* Apply blur effect to the background */
+  /* backdrop-filter: blur(3px);  */
   font-size: 20px;
   margin-top: 70px;
+  background:  url(./assetes/images/shapesbg2.png) no-repeat center center/cover;
+
 
 }
 .drop-or-select h1 {
@@ -124,6 +126,8 @@ border-bottom-right-radius: 20px;
   /* background: rgba(0, 0, 0, 0.2); */
   /* background: rgba(255, 255, 255, 0.7); */
   background:  url(./assetes/images/shapesbg2.png) no-repeat center center/cover;
+    /* backdrop-filter: blur(3px);  */
+
 
 
   /* object-fit: cover; */
