@@ -14,6 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import LoadingSpinner from './assetes/LoadingSpinner/LoadingSpinner';
 
 
@@ -40,6 +42,7 @@ const ImageEditor = () => {
   const [showRadioBtns, setShowRadioBtns] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [imageSize, setImageSize] = useState('');
+  const [isHide, setIsHide] = useState('');
 
   const handleChange = (event) => {
     setImageSize(event.target.value);
@@ -53,6 +56,9 @@ const ImageEditor = () => {
     downloadLink.click();
     document.body.removeChild(downloadLink);
   };
+  // const handleDownloadOutput = async () => {
+  //   setHide(true);
+  // };
 
   const handleProcessImage = async () => {
     setIsLoading(true);
@@ -168,7 +174,21 @@ const ImageEditor = () => {
         </div>
       ) : (
         <div className='edit-container'>
-          <div className='edit'>
+      
+        <Button  className={isHide ? 'show':'show-hidden'}
+        onClick={() => setIsHide(prevHide => !prevHide)}
+          startIcon={<KeyboardDoubleArrowRightIcon />}
+               >
+                 Show
+               </Button>
+          <div className={!isHide ? 'edit':'edit hide'}>
+          <Button
+          className='hide-btn'
+          onClick={() => setIsHide(prevHide => !prevHide)}
+          startIcon={<KeyboardDoubleArrowLeftIcon />}
+               >
+                 Hide
+               </Button>
             <div className='sliders'>
               <div className='slider'>
                 <label htmlFor='brightness'>Brightness:</label>
@@ -321,17 +341,18 @@ const ImageEditor = () => {
                 value={imageSize}
                 label="Image Size"
                 onChange={handleChange}
+                // defaultValue={100}
               >
-                <MenuItem value="">
-                  <em>None</em>
+                <MenuItem value={100}>
+                  <em>Full screen</em>
                 </MenuItem>
-                <MenuItem value={50}>Tiny</MenuItem>
-                <MenuItem value={200}>Very small</MenuItem>
-                <MenuItem value={400}>Small</MenuItem>
-                <MenuItem value={600}>Normal</MenuItem>
-                <MenuItem value={700}>Big</MenuItem>
-                <MenuItem value={800}>Very Big</MenuItem>
-                <MenuItem value={900}>Giant</MenuItem>
+                <MenuItem value={90}>Very Big</MenuItem>
+                <MenuItem value={80}>Big</MenuItem>
+                <MenuItem value={60}>Normal</MenuItem>
+                <MenuItem value={50}>Small</MenuItem>
+                <MenuItem value={40}>Very small</MenuItem>
+                <MenuItem value={15}>Tiny</MenuItem>
+                <MenuItem value={3}>Icon</MenuItem>
               </Select>
             </FormControl>
               <Button
@@ -341,36 +362,20 @@ const ImageEditor = () => {
                 Download Image
               </Button>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <div>
+            
+          </div> 
+          <div>
              
               {(outputImage || isLoading) &&
                 <div className="layer overlay">
                 <div className="output-image-container">
                 {isLoading && <LoadingSpinner /> }
                  {outputImage &&<img src={outputImage} id='output-image' alt='Output Image' style={{
-                  height:`${imageSize}px`,
+                  height:`${imageSize}vh`,
                   maxHeight:`600px`,
                   width:'auto',
                 }} />}
-                 <div>
+                 <div className='output-buttons'>
                  <Button
                  className='cancel'
                  onClick={() => setOutputImage(null)}
@@ -389,12 +394,11 @@ const ImageEditor = () => {
                  
                  </div>
                 }
-            </div>
-          </div>               
-          <div
+            </div> 
+          <div className='image-ref'
             ref={imageRef}
             style={{
-              height:`${imageSize}px`,
+              height:`${imageSize}vh`,
             width:'auto',
               borderRadius: `${borderRadius}%`,
               transform: `rotate(${rotate}deg) scaleX(${flipX}) scaleY(${flipY})`,
@@ -404,17 +408,18 @@ const ImageEditor = () => {
               
             }}
           >
+          
             <img
               id='image'
               className={(rotate/90)%2===1 ? 'rotated-image':''}
               src={URL.createObjectURL(selectedImage)}
               alt='Edited' style={{
-                height:`${imageSize}px`,
+                height:`${imageSize}vh`,
                 width:'auto',
               }}
             />
           </div>
-        </div>
+          </div> 
       )}
     </div>
   );
