@@ -33,6 +33,7 @@ const ImageEditor = () => {
   const [hue, setHue] = useState(0);
   const [saturation, setSaturation] = useState(100);
   const [inversion, setInversion] = useState(0);
+  const [opacity, setOpacity] = useState(100);
   const [rotate, setRotate] = useState(0);
   const [flipX, setFlipX] = useState(1);
   const [flipY, setFlipY] = useState(1);
@@ -287,6 +288,19 @@ const ImageEditor = () => {
                   onChange={(e) => setInversion(e.target.value)}
                   />
               </div>
+              <div className='slider'>
+  <label htmlFor='opacity'>Opacity:</label>
+  <input
+    type='range'
+    id='opacity'
+    name='opacity'
+    min='0'
+    max='100'
+    value={opacity}
+    onChange={(e) => setOpacity(e.target.value)}
+  />
+</div>
+
 
               <div className='slider'>
                 <label>Radius:</label>
@@ -402,10 +416,10 @@ const ImageEditor = () => {
             width:'auto',
               borderRadius: `${borderRadius}%`,
               transform: `rotate(${rotate}deg) scaleX(${flipX}) scaleY(${flipY})`,
-              filter: `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hue}deg) saturate(${saturation}%) invert(${inversion}%)`,
+              filter: `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hue}deg) saturate(${saturation}%) invert(${inversion}%) opacity(${opacity}%)`,
               overflow: 'hidden',
               transition: '0.5s transform ease-in-out'
-              
+            
             }}
           >
           
