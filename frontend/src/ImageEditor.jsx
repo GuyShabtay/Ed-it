@@ -41,7 +41,8 @@ const ImageEditor = () => {
   const [outputImage, setOutputImage] = useState(null);
   const [withBg, setWithBg] = useState(true);
   const [showRadioBtns, setShowRadioBtns] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isBgRemoveLoading, setIsBgRemoveLoading] = useState(false);
+  const [isMainLoading, setIsMainLoading] = useState(false);
   const [imageSize, setImageSize] = useState('');
   const [isHide, setIsHide] = useState('');
 
@@ -62,7 +63,7 @@ const ImageEditor = () => {
   // };
 
   const handleProcessImage = async () => {
-    setIsLoading(true);
+    setIsBgRemoveLoading(true);
     try {
       if (imageRef.current) {
         const dataUrl = await toPng(imageRef.current, { cacheBust: false });
@@ -79,7 +80,7 @@ const ImageEditor = () => {
     } catch (error) {
       console.error('Error processing image:', error);
     }
-    setIsLoading(false);
+    setIsBgRemoveLoading(false);
 
   };
 
@@ -89,7 +90,8 @@ const ImageEditor = () => {
   }, [imageRef]);
 
   const htmlToImageConvert = () => {
-    // setImageSize(100)
+    setIsMainLoading(true);
+    
     toPng(imageRef.current, { cacheBust: false })
       .then((dataUrl) => {
         const link = document.createElement('a');
@@ -100,9 +102,12 @@ const ImageEditor = () => {
       .catch((err) => {
         console.log(err);
       });
-      // setImageSize(500)
+      setIsMainLoading(false);
 
   };
+  
+  
+  
 
   const onDrop = useCallback((acceptedFiles) => {
     setSelectedImage(acceptedFiles[0]);
@@ -175,6 +180,12 @@ const ImageEditor = () => {
         </div>
       ) : (
         <div className='edit-container'>
+        <div className="loading-spinner-main">
+        {isMainLoading && <LoadingSpinner /> }
+        </div>
+
+        
+
       
         <Button  className={isHide ? 'show':'show-hidden'}
         onClick={() => setIsHide(prevHide => !prevHide)}
@@ -380,10 +391,10 @@ const ImageEditor = () => {
           </div> 
           <div>
              
-              {(outputImage || isLoading) &&
+              {(outputImage || isBgRemoveLoading) &&
                 <div className="layer overlay">
                 <div className="output-image-container">
-                {isLoading && <LoadingSpinner /> }
+                {isBgRemoveLoading && <LoadingSpinner /> }
                  {outputImage &&<img src={outputImage} id='output-image' alt='Output Image' style={{
                   height:`${imageSize}vh`,
                   maxHeight:`600px`,
@@ -433,6 +444,7 @@ const ImageEditor = () => {
               }}
             />
           </div>
+          
           </div> 
       )}
     </div>
