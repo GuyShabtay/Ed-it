@@ -23,7 +23,7 @@ body{
   /* margin-top: 50px; */
   /* backdrop-filter: blur(3px);  */
   font-size: 20px;
-  margin-top: 70px;
+  margin-top: 40px;
   background:  url(./assetes/images/shapesbg2.png) no-repeat center center/cover;
 
 
@@ -204,7 +204,7 @@ background-color: transparent;
   display: flex;
   align-items: center;
   flex-direction: column;
-  background: url(./assetes/images/ed-it\ bg.jpg) no-repeat center center/cover;
+  background: url(./assetes/images/editbg.jpg) no-repeat center center/cover;
 }
 .images{
   display: flex;
