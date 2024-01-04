@@ -314,5 +314,13 @@ button.show-hidden{
   transform: translate(-50%, -50%);
   z-index: 1;
 }
+button.back{
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  color: black;
+  background:  url(./assetes/images/shapesbg2.png)  center ;
+  /* background: rgba(231, 231, 231, 0.7); */
 
+}
 

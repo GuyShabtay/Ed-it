@@ -17,6 +17,7 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import LoadingSpinner from './assetes/LoadingSpinner/LoadingSpinner';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 
   
@@ -184,6 +185,13 @@ const ImageEditor = () => {
         <div className="loading-spinner-main">
         {isMainLoading && <LoadingSpinner /> }
         </div>
+        <Button
+               className='back'
+               onClick={() => setSelectedImage(null)}
+               startIcon={<ArrowBackIosIcon />}
+             >
+               Back
+             </Button>
 
         
 
