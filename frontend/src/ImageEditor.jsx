@@ -187,7 +187,8 @@ const ImageEditor = () => {
         </div>
         <Button
                className='back'
-               onClick={() => setSelectedImage(null)}
+               onClick={() => { setSelectedImage(null); setIsHide(false);  }}
+
                startIcon={<ArrowBackIosIcon />}
              >
                Back

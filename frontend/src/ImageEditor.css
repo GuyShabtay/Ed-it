@@ -272,6 +272,7 @@ button.cancel{
 button.hide-btn{
   color:black;
   align-self: flex-end;
+  
 
   
 }
@@ -290,7 +291,9 @@ button.show{
    transform: translateY(-50%);
   z-index: 1;
   transition: all 0.5s ease-in-out;
-  background: rgba(255, 255, 255, 0.7);
+  /* background: rgba(255, 255, 255, 0.7); */
+  background:  url(./assetes/images/shapesbg2.png)  center ;
+
 
 
 }
