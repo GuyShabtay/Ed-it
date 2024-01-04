@@ -128,6 +128,7 @@ const ImageEditor = () => {
 
     if (file) {
       reader.readAsDataURL(file);
+      setSelectedImage(file);
     }
   };
 
