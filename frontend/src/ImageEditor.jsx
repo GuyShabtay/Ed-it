@@ -424,6 +424,7 @@ const ImageEditor = () => {
                >
                  Download Image
                </Button>
+               
                </div>
                  </div>
                  
@@ -446,7 +447,8 @@ const ImageEditor = () => {
           
             <img
               id='image'
-              className={(rotate/90)%2===1 ? 'rotated-image':''}
+              className={(rotate/90)%2===1 && imageSize== ''  ? 'rotated-image':''}
+
               src={URL.createObjectURL(selectedImage)}
               alt='Edited' style={{
                 height:`${imageSize}vh`,

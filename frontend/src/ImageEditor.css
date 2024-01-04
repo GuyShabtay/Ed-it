@@ -93,7 +93,7 @@ img {
 
 }
 .image-ref{
-  height: 100vh ;
+  /* height: 100vh ; */
   display:flex ;
   /* flex-direction: column; */
   justify-content: center;
@@ -157,9 +157,8 @@ border-bottom-right-radius: 20px;
   align-self: center;
 }
 .rotated-image{
-  width: 100vh !important;
-  height: auto;
-
+  width: 100vh !important  ; 
+  height: auto !important   ;
 }
 
 #reflect-vertical{
