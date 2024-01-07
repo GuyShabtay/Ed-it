@@ -1,6 +1,6 @@
 {
   "name": "ed-it",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "image editor",
   "main": "index.js",
   "scripts": {
