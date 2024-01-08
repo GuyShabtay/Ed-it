@@ -359,7 +359,6 @@ const ImageEditor = () => {
                 className='remove-bg'
                 onClick={() => {
                   handleProcessImage();
-                  setShowRadioBtns(true);
                 }}
                 startIcon={<WallpaperSharpIcon />}
               >
