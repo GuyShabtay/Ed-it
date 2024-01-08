@@ -40,8 +40,6 @@ const ImageEditor = () => {
   const [flipY, setFlipY] = useState(1);
   const imageRef = useRef(null);
   const [outputImage, setOutputImage] = useState(null);
-  const [withBg, setWithBg] = useState(true);
-  const [showRadioBtns, setShowRadioBtns] = useState(false);
   const [isBgRemoveLoading, setIsBgRemoveLoading] = useState(false);
   const [isMainLoading, setIsMainLoading] = useState(false);
   const [imageSize, setImageSize] = useState('');
@@ -405,7 +403,7 @@ const ImageEditor = () => {
                 <div className="layer overlay">
                 <div className="output-image-container">
                 {isBgRemoveLoading && <LoadingSpinner /> }
-                 {outputImage &&<img src={outputImage} id='output-image' alt='Output Image' style={{
+                 {outputImage &&<img src={outputImage} id='output-image' alt='Output' style={{
                   height:`${imageSize}vh`,
                   maxHeight:`600px`,
                   width:'auto',
@@ -447,7 +445,7 @@ const ImageEditor = () => {
           
             <img
               id='image'
-              className={(rotate/90)%2===1 && imageSize== ''  ? 'rotated-image':''}
+              className={(rotate/90)%2===1 && imageSize=== ''  ? 'rotated-image':''}
 
               src={URL.createObjectURL(selectedImage)}
               alt='Edited' style={{

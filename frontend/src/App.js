@@ -242,7 +242,7 @@ const App = () => {
           </div>
           <img
             src={URL.createObjectURL(selectedImage)}
-            alt="Selected Image"
+            alt="Selected"
             style={{
               filter: `brightness(${brightness}%) contrast(${contrast}%) sepia(${sepia}%) grayscale(${grayscale}%) blur(${blur}px) hue-rotate(${hue}deg) saturate(${saturation}%) invert(${inversion}%)`,
               transform:`rotate(${rotate}deg)`,
