@@ -326,3 +326,41 @@ button.back{
 
 }
 
+@media (max-width: 768px) {
+  img {
+    width: 100vw !important ;
+    height: auto;
+    /* object-fit: cover; */
+  
+  }
+  .rotated-image{
+    width: 100vw !important  ; 
+    height: auto !important   ;
+  }
+  .edit-container{
+    /* border: 3px red solid; */
+    height: 100vh;
+    /* width:100%; */
+    display:flex ;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: end;
+    /* background: url(./assetes/images/brush.jpg) no-repeat center center/cover; */
+    background-color: white;
+ }
+ .drop-or-select{
+ 
+  width:75%;
+  height:30%;
+ 
+ 
+
+
+}
+h1{
+  padding-top: 200px;
+  
+  }
+
+}
+
