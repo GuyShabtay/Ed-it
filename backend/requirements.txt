@@ -2,5 +2,5 @@ flask
 flask_cors
 rembg
 Pillow
-
+gunicorn
 
