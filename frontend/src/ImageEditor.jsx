@@ -428,6 +428,7 @@ const ImageEditor = () => {
                  </div>
                 }
             </div> 
+            <div className="image-container">
           <div className='image-ref'
             ref={imageRef}
             style={{
@@ -452,6 +453,7 @@ const ImageEditor = () => {
                 width:'auto',
               }}
             />
+          </div>
           </div>
           
           </div> 
