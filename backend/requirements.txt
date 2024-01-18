@@ -3,4 +3,5 @@ flask_cors
 rembg
 Pillow
 gunicorn
+waitress
 
