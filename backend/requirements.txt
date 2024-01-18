@@ -6,5 +6,7 @@ gunicorn
 waitress
 fastapi
 uvicorn
+python-multipart
+
 
 
