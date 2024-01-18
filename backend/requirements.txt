@@ -4,4 +4,6 @@ rembg
 Pillow
 gunicorn
 waitress
+fastapi
+
 
