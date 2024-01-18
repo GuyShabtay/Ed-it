@@ -38,3 +38,6 @@ async def remove_background(imageData: str = Form(...), image_file: UploadFile =
     except Exception as e:
         print(str(e))  # Print the error for debugging
         raise HTTPException(status_code=500, detail=str(e))
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
