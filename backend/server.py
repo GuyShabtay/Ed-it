@@ -16,24 +16,25 @@ CORS(app)
 def hello_world():
     return 'Hello World!'
 
-# @app.route('/api/remove-background', methods=['POST'])
-# def remove_background():
-#     try:
-#         image_data = request.json.get('imageData')
-#         image_bytes = base64.b64decode(image_data)
+@app.route('/api/remove-background', methods=['POST'])
+# @app.route('/')
+def remove_background():
+    try:
+        image_data = request.json.get('imageData')
+        image_bytes = base64.b64decode(image_data)
 
-#         input_image = Image.open(io.BytesIO(image_bytes))
-#         output_image = remove(input_image)
+        input_image = Image.open(io.BytesIO(image_bytes))
+        output_image = remove(input_image)
 
-#         buffered = io.BytesIO()
-#         output_image.save(buffered, format="PNG")
-#         output_image_data = base64.b64encode(buffered.getvalue()).decode('utf-8')
+        buffered = io.BytesIO()
+        output_image.save(buffered, format="PNG")
+        output_image_data = base64.b64encode(buffered.getvalue()).decode('utf-8')
 
-#         return jsonify({'outputImageData': output_image_data})
+        return jsonify({'outputImageData': output_image_data})
 
-#     except Exception as e:
-#         print(str(e))  
-#         return jsonify({'error': str(e)}), 500
+    except Exception as e:
+        print(str(e))  
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':
