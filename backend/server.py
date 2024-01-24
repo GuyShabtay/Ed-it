@@ -16,7 +16,7 @@ CORS(app)
 # def hello_world():
 #     return 'Hello World!'
 
-@app.route('/')
+@app.route('/', methods=['POST'])
 # @app.route('/api/remove-background', methods=['POST'])
 # @app.route('/')
 def remove_background():
