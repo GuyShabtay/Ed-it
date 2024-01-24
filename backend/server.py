@@ -12,11 +12,12 @@ CORS(app)
 # def run():
 #     return "Server Running"
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
+# @app.route('/')
+# def hello_world():
+#     return 'Hello World!'
 
-@app.route('/api/remove-background', methods=['POST'])
+@app.route('/')
+# @app.route('/api/remove-background', methods=['POST'])
 # @app.route('/')
 def remove_background():
     try:

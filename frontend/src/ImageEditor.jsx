@@ -66,12 +66,13 @@ const ImageEditor = () => {
     try {
       if (imageRef.current) {
         const dataUrl = await toPng(imageRef.current, { cacheBust: false });
+        console.log(dataUrl.split(',')[1])
         const response = await axios.post(
-          'https://ed-it-backend.onrender.com:10000/api/remove-background',
+          'https://ed-it-backend.onrender.com',
           {
             imageData: dataUrl.split(',')[1],
           }
-        );
+          );
         setOutputImage(
           `data:image/png;base64,${response.data.outputImageData}`
         );
