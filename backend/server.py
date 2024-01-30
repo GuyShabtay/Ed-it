@@ -1,48 +1,34 @@
-from fastapi import FastAPI, HTTPException, UploadFile, Form
-from fastapi.middleware.cors import CORSMiddleware
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 from rembg import remove
 from PIL import Image
 import base64
 import io
-
-app = FastAPI()
-
-# Enable CORS (Cross-Origin Resource Sharing) for all origins
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
+app = Flask(__name__)
+CORS(app)
+app.config['TIMEOUT'] = 300
 @app.get("/")
 def run():
-    return {"message": "Server Running"}
-
-@app.post("/api/remove-background")
-async def remove_background(image: UploadFile = Form(...)):
+    return "Server Running"
+@app.route('/api/remove-background', methods=['POST'])
+def remove_background():
     try:
-        # Read image file
-        image_data = await image.read()
-
+        # Get the image data from the request
+        image_data = request.json.get('imageData')
+        print("hi")
+        # Decode the base64 image data
+        image_bytes = base64.b64decode(image_data)
         # Remove background
-        input_image = Image.open(io.BytesIO(image_data))
+        input_image = Image.open(io.BytesIO(image_bytes))
         output_image = remove(input_image)
-
         # Convert output image to base64
         buffered = io.BytesIO()
         output_image.save(buffered, format="PNG")
         output_image_data = base64.b64encode(buffered.getvalue()).decode('utf-8')
-
-        return {"outputImageData": output_image_data}
-
+        return jsonify({'outputImageData': output_image_data})
     except Exception as e:
         print(str(e))  # Print the error for debugging
-        raise HTTPException(status_code=500, detail=str(e))
-
+        return jsonify({'error': str(e)}), 500
 if __name__ == '__main__':
-    import uvicorn
+    app.run(host='0.0.0.0', port=5000)  
 
-    # Run the application using Uvicorn server
-    uvicorn.run(app, host='0.0.0.0', port=5000)
