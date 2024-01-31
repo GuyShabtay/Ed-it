@@ -12,6 +12,10 @@ class MainHandler(tornado.web.RequestHandler):
         self.set_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.set_header("Access-Control-Allow-Headers", "Content-Type")
 
+    def get(self):
+        self.write("Server is running")  # Respond with something meaningful here
+
+
 
     def options(self):
         # no body
