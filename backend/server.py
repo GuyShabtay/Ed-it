@@ -8,8 +8,8 @@ import io
 
 class MainHandler(tornado.web.RequestHandler):
     def set_default_headers(self):
-        self.set_header("Access-Control-Allow-Origin", "http://localhost:3000")
-        self.set_header("Access-Control-Allow-Origin", "https://ed-it.onrender.com/")
+        # self.set_header("Access-Control-Allow-Origin", "http://localhost:3000")
+        self.set_header("Access-Control-Allow-Origin", "https://ed-it.onrender.com")
         self.set_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.set_header("Access-Control-Allow-Headers", "Content-Type")
 
