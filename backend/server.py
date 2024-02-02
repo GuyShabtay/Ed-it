@@ -40,7 +40,12 @@ def make_app():
     return tornado.web.Application([
         (r"/", MainHandler),  # Add a route for the root URL
         (r"/api/remove-background", MainHandler),
-    ])
+    ], 
+    # Increase timeouts here
+    default_handler_args=dict(default_handler_class=MainHandler),
+    read_timeout=300,  # Increase read timeout to 300 seconds (5 minutes)
+    write_timeout=300  # Increase write timeout to 300 seconds (5 minutes)
+    )
 
 
 if __name__ == "__main__":
