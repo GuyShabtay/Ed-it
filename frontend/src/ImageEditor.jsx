@@ -355,7 +355,7 @@ const ImageEditor = () => {
               ></Button>
               </div>
 
-              <Button
+              {/*<Button
                 className='remove-bg'
                 onClick={() => {
                   handleProcessImage();
@@ -363,7 +363,7 @@ const ImageEditor = () => {
                 startIcon={<WallpaperSharpIcon />}
               >
                 Remove Background
-              </Button>
+              </Button>*/}
              
               <FormControl sx={{ m: 1, minWidth: 120 }} size="small" className='form-control'>
               <InputLabel id="demo-select-small-label">Image Size</InputLabel>
