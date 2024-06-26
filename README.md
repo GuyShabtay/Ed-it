@@ -4,7 +4,7 @@ dynamic filters, perspective changes, image rotation and
 easy-to-use Drag & Drop option for image upload.
 
 ## How to run this project
-- install dependecies:
+- Install dependecies:
 <pre><code>npm i</code></pre>
 
 - Run the apllication:
