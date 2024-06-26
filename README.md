@@ -5,10 +5,10 @@ easy-to-use Drag & Drop option for image upload.
 
 ## How to run this project
 - install dependecies:
-<code>npm i</code>
+<pre><code>npm i</code></pre>
 
 - Run the apllication:
-<code>npm start</code>
+<pre><code>npm start</code></pre>
 
 ## Technologies
 - HTML
